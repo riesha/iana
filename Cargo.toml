@@ -15,5 +15,5 @@ features = ["memoryapi"]
 [dependencies.iced-x86]
 version = "1.18.0"
 default-features = false
-features = ["no_std", "decoder", "masm","code_asm"]
+features = ["no_std", "decoder","code_asm"]
 
