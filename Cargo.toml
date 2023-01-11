@@ -1,0 +1,19 @@
+[package]
+name = "iana"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = { version = "1.0", default-features = false }
+
+[dependencies.winapi] 
+version = "0.3.9"
+features = ["memoryapi"]
+
+[dependencies.iced-x86]
+version = "1.18.0"
+default-features = false
+features = ["no_std", "decoder", "masm","code_asm"]
+
