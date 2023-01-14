@@ -24,7 +24,7 @@ pub(crate) fn write_readonly(address: *mut u8, data: *const u8, len: i32) -> Res
 
     let protect =
         unsafe { VirtualProtect(address as _, len as _, old as _, ptr::addr_of_mut!(old)) };
-    ensure!(protect != 0, " Error while setting restoring old flags");
+    ensure!(protect != 0, " Error while restoring old flags");
 
     Ok(())
 }

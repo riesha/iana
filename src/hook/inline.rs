@@ -9,16 +9,25 @@ use iced_x86::{
 
 use crate::{map_err, utils::write_readonly, ARCH, JMP_SIZE};
 
+#[derive(Default)]
 pub struct InlineHook
 {
-    pub original:     usize,
-    pub target:       usize,
-    pub enabled:      bool,
-    pub stolen_bytes: Vec<u8>,
+    pub original: usize,
+    pub target:   usize,
+    enabled:      bool,
+    stolen_bytes: Vec<u8>,
 }
 
 impl InlineHook
 {
+    pub fn init(&mut self, original: *mut u8, target: *mut u8) -> Result<&Self>
+    {
+        ensure!(!self.enabled, "Hook has already been initialized");
+
+        *self = InlineHook::create(original, target)?;
+        Ok(self)
+    }
+
     pub fn create(original: *mut u8, target: *mut u8) -> Result<Self>
     {
         ensure!(!original.is_null(), "Original cannot be null");
@@ -57,7 +66,6 @@ impl InlineHook
         };
 
         write_readonly(original, map_err!(asm.assemble(0x0)).as_ptr(), size as _)?;
-
         Ok(ret)
     }
 
@@ -72,7 +80,6 @@ impl InlineHook
         )?;
 
         self.enabled = false;
-
         Ok(self)
     }
 }
